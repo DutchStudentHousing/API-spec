@@ -19,6 +19,107 @@ tags:
   - name: user
     description: Operations about user
 paths:
+  /properties:
+    get:
+      tags:
+        - property
+      summary: Get properties with optional filters
+      description: Get properties with optional filters
+      operationId: getProperties
+      parameters:
+        - name: city
+          in: query
+          description: City where the property is
+          required: false
+          explode: false
+          schema:
+            type: string
+          example: "Groningen"
+        - name: lat
+          in: query
+          description: Latitude
+          required: false
+          explode: false
+          schema:
+            type: number
+            format: float
+        - name: long
+          in: query
+          description: Longitude
+          required: false
+          explode: false
+          schema:
+            type: number
+            format: float
+        - name: distance
+          in: query
+          description: Distance in kilometers from known point
+          required: false
+          explode: false
+          schema:
+            type: number
+            format: float
+        - name: perPage
+          in: query
+          description: Items per page
+          required: false
+          explode: false
+          allowEmptyValue: true
+          schema:
+            type: integer
+            format: int32
+        - name: page
+          in: query
+          description: Page number (allows computed range on server side along with perPage parameter)
+          required: false
+          explode: false
+          allowEmptyValue: true
+          schema:
+            type: integer
+            format: int32
+        - name: orderBy
+          in: query
+          description: Value to order listed items by
+          required: false
+          explode: false
+          schema:
+            type: string
+            default: price
+            enum:
+            - price
+            - pricepersqm
+        - name: min
+          in: query
+          description: Minimum price
+          required: false
+          explode: false
+          schema:
+            type: number
+            format: float
+        - name: max
+          in: query
+          description: Maximum price
+          required: false
+          explode: false
+          schema:
+            type: number
+            format: float
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Properties'
+        '400':
+          description: Invalid paramters
+        '404':
+          description: No properties found for given parameters 
+        '401':
+          description: Unauthorized to view properties (not yet logged in?)
+      security:
+        - dsh_auth:
+            - read:properties
   /property:
     put:
       tags:
