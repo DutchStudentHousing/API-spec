@@ -248,6 +248,57 @@ paths:
           description: Account with email not found
         '400':
           description: Incorrect password
+  /message:
+    post:
+      tags:
+        - message
+      summary: Send a message
+      operationId: postMessage
+      requestBody:
+        description: Message
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                recv_id:
+                  type: integer
+                  format: int64
+                prop_id:
+                  type: string
+                message:
+                  type: string
+      responses:
+        '201':
+          description: Successfully sent message
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+        '400':
+          description: Incorrect message format
+        '404':
+          description: Receiver not found
+  /messages:
+    get:
+      tags:
+        - message
+      summary: Get all messages associated with currently logged in account
+      operationId: getMessages
+      responses:
+        '200':
+          description: Successfully received messages
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Message'
+        '404':
+          description: No messages found
+        '403':
+          description: Not logged in
+  
 components:
   schemas:
     Property:
@@ -301,6 +352,34 @@ components:
         email:
           type: string
           format: email
+    Message:
+      type: object
+      properties:
+        from:
+          type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+            name:
+              type: string
+        to:
+          type: object
+          properties:
+            id: 
+              type: integer
+              format: int64
+            name:
+              type: string
+        content:
+          type: string
+        property:
+          type: object
+          properties:
+            id:
+              type: string
+            name:
+              type: string
   securitySchemes:
     dsh_auth:
       type: http
