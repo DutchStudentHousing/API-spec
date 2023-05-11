@@ -248,6 +248,17 @@ paths:
           description: Account with email not found
         '400':
           description: Incorrect password
+  /account/logout:
+    post:
+      tags:
+        - account
+      summary: Log out of account
+      operationId: logout
+      responses:
+        '204':
+          description: Successfully logged out
+        '403':
+          description: Not logged in
   /message:
     post:
       tags:
