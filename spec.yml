@@ -171,7 +171,7 @@ paths:
               $ref: '#/components/schemas/Property'
         required: true
       responses:
-        '200':
+        '201':
           description: Successful operation
           content:
             application/json:
@@ -186,6 +186,68 @@ paths:
         - dsh_auth:
             - write:properties
             - read:properties
+  /account:
+    post:
+      tags: 
+        - account
+      summary: Create a new account
+      operationId: addAccount
+      requestBody:
+        description: Create a new account
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Account'
+      responses:
+        '201':
+          description: Successfully created a new account
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+            text/csv:
+              schema:
+                type: string
+        '405':
+          description: Invalid input
+      security:
+        - dsh_auth:
+            - read:accounts
+            - write:accounts
+  /account/login:
+    post:
+      tags: 
+        - account
+      summary: Log in to account
+      operationId: login
+      requestBody:
+        description: Log in to account
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                  format: password
+      responses:
+        '200': 
+          description: Successfully logged in
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    format: int64
+        '404':
+          description: Account with email not found
+        '400':
+          description: Incorrect password
 components:
   schemas:
     Property:
@@ -230,18 +292,17 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/Property'
+    Account:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        email:
+          type: string
+          format: email
   securitySchemes:
     dsh_auth:
       type: http
       scheme: bearer
       bearerFormat: JWT
-      # flows:
-      #   implicit:
-      #     authorizationUrl: https://petstore3.swagger.io/oauth/authorize
-      #     scopes:
-      #       write:properties: modify properties in your account
-      #       read:properties: read available properties
-    api_key:
-      type: apiKey
-      name: api_key
-      in: header
