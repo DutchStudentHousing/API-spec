@@ -309,9 +309,42 @@ paths:
           description: No messages found
         '403':
           description: Not logged in
-  
+  /stats/{city}:
+    get:
+      tags:
+        - statistics
+      summary: Get the stats for prices
+      operationId: stats
+      parameters:
+        - in: path
+          name: city
+          schema:
+            type: string
+          required: true
+          description: Name of the city to calculate statistics for
+      responses:
+        '200':
+          description: Successfully calculated statistics
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Stats'
+        '403':
+          description: Not an admin
 components:
   schemas:
+    Stats:
+      type: object
+      properties:
+        mean:
+          type: number
+          format: float
+        median:
+          type: number
+          format: float
+        stddev:
+          type: number
+          format: float
     Property:
       type: object
       properties:
