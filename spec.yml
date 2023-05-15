@@ -117,12 +117,7 @@ paths:
         '400':
           description: Invalid paramters
         '404':
-          description: No properties found for given parameters 
-        '401':
-          description: Unauthorized to view properties (not yet logged in?)
-      security:
-        - dsh_auth:
-            - read:properties
+          description: No properties found for given parameters
   /property:
     put:
       tags:
