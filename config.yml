@@ -1,0 +1,16 @@
+additionalProperties:
+  artifactId: api
+  basePackage: nl.dsh.api
+  apiPackage: nl.dsh.api.interfaces
+  serializableModel: true
+  dateLibrary: java8
+  modelPackage: nl.dsh.api.models
+  interfaceOnly: true
+  requestMappingMode: api_interface
+  skipDefaultInterface: true
+  useOptional: true
+  # useSpringBoot3: true
+  useJakartaEe: true
+  title: Dutch Student Housing
+  booleanGetterPrefix: is
+  documentationProvider: source
