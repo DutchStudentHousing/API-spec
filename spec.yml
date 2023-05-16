@@ -389,6 +389,8 @@ components:
             - Room
             - Apartment
             - Studio
+            - Anti-squat
+            - Student residence
             - Other
     Properties:
       type: array
