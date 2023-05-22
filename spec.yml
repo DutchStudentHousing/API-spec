@@ -1,0 +1,440 @@
+openapi: 3.0.3
+info:
+  title: Dutch Student Housing 
+  description: |-
+     Dutch Student Housing version 1
+  contact:
+    email: rogier@codegorilla.nl
+  version: 0.1.0
+externalDocs:
+  description: git
+  url: https://github.com/orgs/DutchStudentHousing
+# servers:
+#   - url: https://petstore3.swagger.io/api/v3
+tags:
+  - name: property
+    description: Property listings and management
+  - name: message
+    description: Receive and send messages
+  - name: user
+    description: Operations about user
+paths:
+  /properties:
+    get:
+      tags:
+        - property
+      summary: Get properties with optional filters
+      description: Get properties with optional filters
+      operationId: getProperties
+      parameters:
+        - name: city
+          in: query
+          description: City where the property is
+          required: false
+          explode: false
+          schema:
+            type: string
+          example: "Groningen"
+        - name: lat
+          in: query
+          description: Latitude
+          required: false
+          explode: false
+          schema:
+            type: number
+            format: float
+        - name: long
+          in: query
+          description: Longitude
+          required: false
+          explode: false
+          schema:
+            type: number
+            format: float
+        - name: distance
+          in: query
+          description: Distance in kilometers from known point
+          required: false
+          explode: false
+          schema:
+            type: number
+            format: float
+        - name: perPage
+          in: query
+          description: Items per page
+          required: false
+          explode: false
+          allowEmptyValue: true
+          schema:
+            type: integer
+            format: int32
+        - name: page
+          in: query
+          description: Page number (allows computed range on server side along with perPage parameter)
+          required: false
+          explode: false
+          allowEmptyValue: true
+          schema:
+            type: integer
+            format: int32
+        - name: orderBy
+          in: query
+          description: Value to order listed items by
+          required: false
+          explode: false
+          schema:
+            type: string
+            default: price
+            enum:
+            - price
+            - pricepersqm
+        - name: min
+          in: query
+          description: Minimum price
+          required: false
+          explode: false
+          schema:
+            type: number
+            format: float
+        - name: max
+          in: query
+          description: Maximum price
+          required: false
+          explode: false
+          schema:
+            type: number
+            format: float
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Properties'
+            text/csv:
+              schema:
+                type: string
+        '400':
+          description: Invalid paramters
+        '404':
+          description: No properties found for given parameters
+  /property:
+    put:
+      tags:
+        - property
+      summary: Update an existing property
+      description: Update an existing property by Id
+      operationId: updateProperty
+      requestBody:
+        description: Update an existent property listing
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Property'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Property'
+            text/csv:
+              schema:
+                type: string
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Property not found
+        '405':
+          description: Validation exception
+      security:
+        - dsh_auth:
+            - write:properties
+            - read:properties
+    post:
+      tags:
+        - property
+      summary: Add a new property listing
+      description: Add a new property listing
+      operationId: addProperty
+      requestBody:
+        description: Create a new property listing
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Property'
+        required: true
+      responses:
+        '201':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Property'
+            text/csv:
+              schema:
+                type: string
+        '405':
+          description: Invalid input
+      security:
+        - dsh_auth:
+            - write:properties
+            - read:properties
+  /account:
+    post:
+      tags: 
+        - account
+      summary: Create a new account
+      operationId: addAccount
+      requestBody:
+        description: Create a new account
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Account'
+      responses:
+        '201':
+          description: Successfully created a new account
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+            text/csv:
+              schema:
+                type: string
+        '405':
+          description: Invalid input
+      security:
+        - dsh_auth:
+            - read:accounts
+            - write:accounts
+  /account/login:
+    post:
+      tags: 
+        - account
+      summary: Log in to account
+      operationId: login
+      requestBody:
+        description: Log in to account
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                  format: password
+      responses:
+        '200': 
+          description: Successfully logged in
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    format: int64
+            text/csv:
+              schema:
+                type: string
+        '404':
+          description: Account with email not found
+        '400':
+          description: Incorrect password
+  /account/logout:
+    post:
+      tags:
+        - account
+      summary: Log out of account
+      operationId: logout
+      responses:
+        '204':
+          description: Successfully logged out
+        '403':
+          description: Not logged in
+  /message:
+    post:
+      tags:
+        - message
+      summary: Send a message
+      operationId: postMessage
+      requestBody:
+        description: Message
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                recv_id:
+                  type: integer
+                  format: int64
+                prop_id:
+                  type: string
+                message:
+                  type: string
+      responses:
+        '201':
+          description: Successfully sent message
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+            text/csv:
+              schema:
+                type: string
+        '400':
+          description: Incorrect message format
+        '404':
+          description: Receiver not found
+  /messages:
+    get:
+      tags:
+        - message
+      summary: Get all messages associated with currently logged in account
+      operationId: getMessages
+      responses:
+        '200':
+          description: Successfully received messages
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Message'
+            text/csv:
+              schema:
+                type: string
+        '404':
+          description: No messages found
+        '403':
+          description: Not logged in
+  /stats/{city}:
+    get:
+      tags:
+        - statistics
+      summary: Get the stats for prices
+      operationId: stats
+      parameters:
+        - in: path
+          name: city
+          schema:
+            type: string
+          required: true
+          description: Name of the city to calculate statistics for
+      responses:
+        '200':
+          description: Successfully calculated statistics
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Stats'
+            text/csv:
+              schema:
+                type: string
+        '403':
+          description: Not an admin
+components:
+  schemas:
+    Stats:
+      type: object
+      properties:
+        mean:
+          type: number
+          format: float
+        median:
+          type: number
+          format: float
+        stddev:
+          type: number
+          format: float
+    Property:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        city:
+          type: string
+        lat:
+          type: number
+          format: float
+        long:
+          type: number
+          format: float
+        img:
+          type: string
+        date_published:
+          type: string
+          format: date-time
+        rent:
+          type: number
+          format: float
+        rent_incl:
+          type: boolean
+        sqm:
+          type: integer
+          format: int32
+        postal_code:
+          type: string
+        type:
+          type: string
+          default: Room
+          enum:
+            - Room
+            - Apartment
+            - Studio
+            - Anti-squat
+            - Student residence
+            - Other
+    Properties:
+      type: array
+      items:
+        $ref: '#/components/schemas/Property'
+    Account:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        email:
+          type: string
+          format: email
+    Message:
+      type: object
+      properties:
+        from:
+          type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+            name:
+              type: string
+        to:
+          type: object
+          properties:
+            id: 
+              type: integer
+              format: int64
+            name:
+              type: string
+        content:
+          type: string
+        property:
+          type: object
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+  securitySchemes:
+    dsh_auth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
