@@ -21,6 +21,7 @@ tags:
 paths:
   /properties:
     get:
+      x-spring-paginated: true
       tags:
         - property
       summary: Get properties with optional filters
@@ -59,24 +60,24 @@ paths:
           schema:
             type: number
             format: float
-        - name: perPage
-          in: query
-          description: Items per page
-          required: false
-          explode: false
-          allowEmptyValue: true
-          schema:
-            type: integer
-            format: int32
-        - name: page
-          in: query
-          description: Page number (allows computed range on server side along with perPage parameter)
-          required: false
-          explode: false
-          allowEmptyValue: true
-          schema:
-            type: integer
-            format: int32
+#        - name: perPage
+#          in: query
+#          description: Items per page
+#          required: false
+#          explode: false
+#          allowEmptyValue: true
+#          schema:
+#            type: integer
+#            format: int32
+#        - name: page
+#          in: query
+#          description: Page number (allows computed range on server side along with perPage parameter)
+#          required: false
+#          explode: false
+#          allowEmptyValue: true
+#          schema:
+#            type: integer
+#            format: int32
         - name: orderBy
           in: query
           description: Value to order listed items by
@@ -374,7 +375,7 @@ components:
           type: string
         date_published:
           type: string
-          format: date-time
+          format: date
         rent:
           type: number
           format: float
