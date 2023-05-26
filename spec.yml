@@ -342,6 +342,35 @@ paths:
                 type: string
         '403':
           description: Not an admin
+  /knownvalues:
+    get:
+      summary: Get values to prepopulate frontend fields
+      tags:
+        - misc
+      responses:
+        200:
+          description: Successfully got values
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  minRent:
+                    type: number
+                    format: float
+                  maxRent:
+                    type: number
+                    format: float
+                  cities:
+                    type: array
+                    items:
+                      type: string
+                  minSqm:
+                    type: integer
+                    format: int32
+                  maxSqm:
+                    type: integer
+                    format: int32
 components:
   schemas:
     Stats:
@@ -393,8 +422,8 @@ components:
             - Room
             - Apartment
             - Studio
-            - Anti-squat
-            - Student residence
+            - AntiSquat
+            - StudentResidence
             - Other
     Properties:
       type: array
