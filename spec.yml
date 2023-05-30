@@ -28,6 +28,27 @@ paths:
       description: Get properties with optional filters
       operationId: getProperties
       parameters:
+        - name: page
+          in: query
+          description: page
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: size
+          in: query
+          description: size
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: sort
+          in: query
+          required: false
+          description: sort by, in direction
+          schema:
+            type: string
+            example: city,DESC
         - name: city
           in: query
           description: City where the property is
@@ -78,17 +99,6 @@ paths:
 #          schema:
 #            type: integer
 #            format: int32
-        - name: orderBy
-          in: query
-          description: Value to order listed items by
-          required: false
-          explode: false
-          schema:
-            type: string
-            default: price
-            enum:
-            - price
-            - pricepersqm
         - name: min
           in: query
           description: Minimum price
@@ -182,6 +192,26 @@ paths:
         - dsh_auth:
             - write:properties
             - read:properties
+  /property/{id}:
+    get:
+      tags:
+        - property
+      description: returns property specified by id
+      parameters:
+        - name: id
+          in: path
+          description: id for property
+          required: true
+          explode: false
+          schema:
+            type: string
+      responses:
+        200:
+          description: successfully found property with id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PropertyDetails'
   /account:
     post:
       tags: 
@@ -426,6 +456,117 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/Property'
+    PropertyDetails:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        city:
+          type: string
+        lat:
+          type: number
+          format: float
+        long:
+          type: number
+          format: float
+        img:
+          type: string
+        date_published:
+          type: string
+          format: date
+        rent:
+          type: number
+          format: float
+        rent_incl:
+          type: boolean
+        sqm:
+          type: integer
+          format: int32
+        postal_code:
+          type: string
+        type:
+          type: string
+          default: Room
+          enum:
+            - Room
+            - Apartment
+            - Studio
+            - AntiSquat
+            - StudentResidence
+            - Other
+        description:
+          type: string
+        roommates:
+          type: string
+        gender_roommates:
+          type: string
+          default: Unknown
+          enum:
+            - Male
+            - Female
+            - Mixed
+            - Unknown
+        furnished:
+          type: string
+          default: Unfurnished
+          enum:
+            - Furnished
+            - Unfurnished
+            - Uncarpeted
+        energy_label:
+          type: string
+          default: Unknown
+          enum:
+            - A
+            - B
+            - C
+            - D
+            - E
+            - F
+            - G
+            - Unknown
+        internet:
+          type: boolean
+        pets_allowed:
+          type: boolean
+        own_toilet:
+          type: boolean
+        own_bathroom:
+          type: boolean
+        own_kitchen:
+          type: boolean
+        smoking_allowed:
+          type: boolean
+        last_seen_at:
+          type: string
+          format: date
+        gender:
+          type: string
+          default: NotImportant
+          enum:
+            - Female
+            - Male
+            - Mixed
+            - NotImportant
+        match_status:
+          type: array
+          items:
+            type: string
+            default: NotImportant
+            enum:
+              - Student
+              - WorkingStudent
+              - Working
+              - LookingForAJob
+              - NotImportant
+        age_min:
+          type: integer
+          format: int32
+        age_max: 
+          type: integer
+          format: int32
     Account:
       type: object
       properties:
