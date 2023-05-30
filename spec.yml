@@ -459,34 +459,34 @@ components:
     PropertyDetails:
       type: object
       properties:
-        id:
+        property_id:
           type: string
-        name:
+        property_name:
           type: string
-        city:
+        property_city:
           type: string
-        lat:
+        property_lat:
           type: number
           format: float
-        long:
+        property_long:
           type: number
           format: float
-        img:
+        property_img:
           type: string
-        date_published:
+        property_date_published:
           type: string
           format: date
-        rent:
+        property_rent:
           type: number
           format: float
-        rent_incl:
+        property_rent_incl:
           type: boolean
-        sqm:
+        property_sqm:
           type: integer
           format: int32
-        postal_code:
+        property_postal_code:
           type: string
-        type:
+        property_type:
           type: string
           default: Room
           enum:
@@ -496,11 +496,11 @@ components:
             - AntiSquat
             - StudentResidence
             - Other
-        description:
+        property_details_description:
           type: string
-        roommates:
+        property_details_roommates:
           type: string
-        gender_roommates:
+        property_details_gender_roommates:
           type: string
           default: Unknown
           enum:
@@ -508,14 +508,14 @@ components:
             - Female
             - Mixed
             - Unknown
-        furnished:
+        property_details_furnished:
           type: string
           default: Unfurnished
           enum:
             - Furnished
             - Unfurnished
             - Uncarpeted
-        energy_label:
+        property_details_energy_label:
           type: string
           default: Unknown
           enum:
@@ -527,22 +527,22 @@ components:
             - F
             - G
             - Unknown
-        internet:
+        property_details_internet:
           type: boolean
-        pets_allowed:
+        property_details_pets_allowed:
           type: boolean
-        own_toilet:
+        property_details_own_toilet:
           type: boolean
-        own_bathroom:
+        property_details_own_bathroom:
           type: boolean
-        own_kitchen:
+        property_details_own_kitchen:
           type: boolean
-        smoking_allowed:
+        property_details_smoking_allowed:
           type: boolean
-        last_seen_at:
+        property_details_last_seen_at:
           type: string
           format: date
-        gender:
+        property_match_gender:
           type: string
           default: NotImportant
           enum:
@@ -550,7 +550,7 @@ components:
             - Male
             - Mixed
             - NotImportant
-        match_status:
+        property_match_match_status:
           type: array
           items:
             type: string
@@ -561,10 +561,10 @@ components:
               - Working
               - LookingForAJob
               - NotImportant
-        age_min:
+        property_match_age_min:
           type: integer
           format: int32
-        age_max: 
+        property_match_age_max: 
           type: integer
           format: int32
     Account:
