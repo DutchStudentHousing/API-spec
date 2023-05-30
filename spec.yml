@@ -115,9 +115,6 @@ paths:
             text/csv:
               schema:
                 type: string
-            application/xml:
-              schema:
-                type: string
         '400':
           description: Invalid paramters
         '404':
