@@ -81,24 +81,6 @@ paths:
           schema:
             type: number
             format: float
-#        - name: perPage
-#          in: query
-#          description: Items per page
-#          required: false
-#          explode: false
-#          allowEmptyValue: true
-#          schema:
-#            type: integer
-#            format: int32
-#        - name: page
-#          in: query
-#          description: Page number (allows computed range on server side along with perPage parameter)
-#          required: false
-#          explode: false
-#          allowEmptyValue: true
-#          schema:
-#            type: integer
-#            format: int32
         - name: min
           in: query
           description: Minimum price
@@ -398,6 +380,9 @@ paths:
                   maxSqm:
                     type: integer
                     format: int32
+                  propertyCount:
+                    type: integer
+                    format: int64
 components:
   schemas:
     Stats:
