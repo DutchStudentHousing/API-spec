@@ -247,11 +247,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                    format: int64
+                type: string
             text/csv:
               schema:
                 type: string
