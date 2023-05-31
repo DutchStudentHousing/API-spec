@@ -356,6 +356,7 @@ paths:
       summary: Get values to prepopulate frontend fields
       tags:
         - misc
+      operationId: getKnownValues
       responses:
         200:
           description: Successfully got values
