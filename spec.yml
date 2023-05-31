@@ -384,6 +384,10 @@ paths:
                   propertyCount:
                     type: integer
                     format: int64
+                  sortableColumns:
+                    type: array
+                    items:
+                      type: string
 components:
   schemas:
     Stats:
