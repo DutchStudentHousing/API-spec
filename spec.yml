@@ -55,8 +55,10 @@ paths:
           required: false
           explode: false
           schema:
-            type: string
-          example: "Groningen"
+            type: array
+            items:
+              type: string
+          example: "Groningen,Leeuwarden"
         - name: lat
           in: query
           description: Latitude
@@ -417,12 +419,14 @@ components:
           type: string
         date_published:
           type: string
-          format: date
         rent:
           type: number
           format: float
         rent_incl:
           type: boolean
+        rent_per_sqm:
+          type: number
+          format: float
         sqm:
           type: integer
           format: int32
@@ -461,12 +465,14 @@ components:
           type: string
         property_date_published:
           type: string
-          format: date
         property_rent:
           type: number
           format: float
         property_rent_incl:
           type: boolean
+        property_rent_per_sqm:
+          type: number
+          format: float
         property_sqm:
           type: integer
           format: int32
@@ -527,7 +533,6 @@ components:
           type: boolean
         property_details_last_seen_at:
           type: string
-          format: date
         property_match_gender:
           type: string
           default: NotImportant
@@ -565,31 +570,22 @@ components:
     Message:
       type: object
       properties:
-        from:
-          type: object
-          properties:
-            id:
-              type: integer
-              format: int64
-            name:
-              type: string
-        to:
-          type: object
-          properties:
-            id: 
-              type: integer
-              format: int64
-            name:
-              type: string
+        sender_uid:
+          type: integer
+          format: int64
+        sender_username:
+          type: string
+        receiver_uid:
+          type: integer
+          format: int64
+        receiver_username:
+          type: string
         content:
           type: string
-        property:
-          type: object
-          properties:
-            id:
-              type: string
-            name:
-              type: string
+        property_property_id:
+          type: string
+        property_name:
+          type: string
   securitySchemes:
     dsh_auth:
       type: http
