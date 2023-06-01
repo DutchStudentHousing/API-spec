@@ -9,8 +9,8 @@ info:
 externalDocs:
   description: git
   url: https://github.com/orgs/DutchStudentHousing
-# servers:
-#   - url: https://petstore3.swagger.io/api/v3
+servers:
+  - url: http://localhost/api
 tags:
   - name: property
     description: Property listings and management
