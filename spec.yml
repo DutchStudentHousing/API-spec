@@ -1,6 +1,6 @@
 openapi: 3.0.3
 info:
-  title: Dutch Student Housing 
+  title: Dutch Student Housing
   description: |-
      Dutch Student Housing version 1
   contact:
@@ -198,7 +198,7 @@ paths:
                 $ref: '#/components/schemas/PropertyDetails'
   /account:
     post:
-      tags: 
+      tags:
         - account
       summary: Create a new account
       operationId: addAccount
@@ -226,7 +226,7 @@ paths:
             - write:accounts
   /account/login:
     post:
-      tags: 
+      tags:
         - account
       summary: Log in to account
       operationId: login
@@ -244,15 +244,12 @@ paths:
                   type: string
                   format: password
       responses:
-        '200': 
+        '200':
           description: Successfully logged in
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  token:
-                    type: string
+                  $ref: '#/components/schemas/Token'
             text/csv:
               schema:
                 type: string
@@ -391,6 +388,14 @@ paths:
                       type: string
 components:
   schemas:
+    Token:
+      type: object
+      nullable: false
+      properties:
+        token:
+          nullable: false
+          required: true
+          type: string
     Stats:
       type: object
       properties:
@@ -558,7 +563,7 @@ components:
         property_match_age_min:
           type: integer
           format: int32
-        property_match_age_max: 
+        property_match_age_max:
           type: integer
           format: int32
     Account:
