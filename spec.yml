@@ -53,7 +53,7 @@ paths:
           in: query
           description: City where the property is
           required: false
-          explode: false
+          explode: true
           schema:
             type: array
             items:
