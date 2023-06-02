@@ -390,11 +390,8 @@ components:
   schemas:
     Token:
       type: object
-      nullable: false
       properties:
         token:
-          nullable: false
-          required: true
           type: string
     Stats:
       type: object
